@@ -1,0 +1,8 @@
+# Hough Circle Transform
+https://web.archive.org/web/20210506214759/https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_imgproc/py_houghcircles/py_houghcircles.html
+
+# Canny Edge Detection
+https://web.archive.org/web/20210301012650/https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_imgproc/py_canny/py_canny.html
+
+# Circle detection
+https://www.geeksforgeeks.org/circle-detection-using-opencv-python/
