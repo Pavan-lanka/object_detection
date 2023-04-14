@@ -1,2 +1,2 @@
-[testing_testing_testing]
-	hello_hello_hello = 0
+[vid_input]
+    path_to_file = "/home/hp/PycharmProjects/object_detection/data/videoplayback.mp4"
