@@ -1,9 +1,10 @@
 import cv2 as cv
 import imutils
+import numpy as np
 
 
 def adding_artifact(video_frame):
-    blur_added_frame = cv.GaussianBlur(video_frame, (11, 11), 0)
+    blur_added_frame = cv.GaussianBlur(video_frame, (11, 11), 7)
     return blur_added_frame
 
 
@@ -21,17 +22,16 @@ def find_contours(masked_frame):
 
 
 def draw_circle(contours, vid_frame):
-
     if len(contours) >= 1:
         # find the largest contour in the mask, then use
         # it to compute the minimum enclosing circle
         circle_vals = max(contours, key=cv.contourArea)
         ((x, y), radius) = cv.minEnclosingCircle(circle_vals)
-        # only proceed if the radius meets a minimum size
         if radius > 5:
             # draw the circle on the frame,
             cv.circle(vid_frame, (int(x), int(y)), int(radius), (0, 255, 255), 2)
     return vid_frame
 
 
-
+def add_noise(img, intensity, ratio):
+    pass
