@@ -2,18 +2,25 @@ import cv2 as cv
 import imutils
 
 
-def add_artifacts(video_frame, lower_bound, upper_bound):
-    frame = imutils.resize(video_frame, width=600)
-    blur_added_frame = cv.GaussianBlur(frame, (11, 11), 0)
-    hsv = cv.cvtColor(blur_added_frame, cv.COLOR_BGR2HSV)
-    mask = cv.inRange(hsv, lower_bound, upper_bound, cv.COLOR_HSV2RGB)
+def adding_artifact(video_frame):
+    blur_added_frame = cv.GaussianBlur(video_frame, (11, 11), 0)
+    return blur_added_frame
+
+
+def adding_mask(blurred_frame, color_lower_bound, color_upper_bound):
+    hsv = cv.cvtColor(blurred_frame, cv.COLOR_BGR2HSV)
+    mask = cv.inRange(hsv, color_lower_bound, color_upper_bound, cv.COLOR_HSV2RGB)
     mask = cv.morphologyEx(mask, cv.MORPH_OPEN, None)
-    contours = cv.findContours(mask.copy(), cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
+    return mask
+
+
+def find_contours(masked_frame):
+    contours = cv.findContours(masked_frame.copy(), cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
     contours = imutils.grab_contours(contours)
     return contours
 
 
-def find_contours_to_circle(contours, vid_frame):
+def draw_circle(contours, vid_frame):
 
     if len(contours) >= 1:
         # find the largest contour in the mask, then use
@@ -24,7 +31,7 @@ def find_contours_to_circle(contours, vid_frame):
         if radius > 5:
             # draw the circle on the frame,
             cv.circle(vid_frame, (int(x), int(y)), int(radius), (0, 255, 255), 2)
-    return None
+    return vid_frame
 
 
 

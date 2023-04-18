@@ -1,6 +1,6 @@
 
 
-#path_to_file = "/home/hp/PycharmProjects/object_detection/data/videoplayback.mp4"
-path_to_file = "data/videoplayback.mp4"
+path_to_file = "/home/hp/PycharmProjects/object_detection/data/videoplayback.mp4"
+#path_to_file = "data/videoplayback.mp4"
 red_lower = [172,100,100]
 red_upper = [180,255,255]

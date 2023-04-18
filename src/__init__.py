@@ -1,5 +1,5 @@
 from src.config_parser import load_config
-from frame_methods import modified_frame as fm
+from frame_methods import frame_revamp as fm
 import cv2 as cv
 import os
 
@@ -15,12 +15,12 @@ def main():
         ret, frame = vid_src.read()
         if frame is None:
             break
-        blur_added_frame = fm.add_artifacts(frame)
+        blur_added_frame = fm.adding_artifact(frame)
         masked_frame = fm.create_mask_to_video_frame(blur_added_frame, tuple(config['red_lower']), tuple(config['red_upper']))
         contours = fm.find_contours(masked_frame)
         add_circle = fm.draw_circle(contours, vid_src)
-        cv.imshow("Detect_Circle", add_circle )
-        key = cv.waitKey(10) & 0xFF
+        cv.imshow("Detect_Circle", add_circle)
+        key = cv.waitKey(1) & 0xFF
         if key == 27:
             break
     return vid_src
