@@ -8,12 +8,13 @@ def add_artifacts(video_frame, lower_bound, upper_bound):
     hsv = cv.cvtColor(blur_added_frame, cv.COLOR_BGR2HSV)
     mask = cv.inRange(hsv, lower_bound, upper_bound, cv.COLOR_HSV2RGB)
     mask = cv.morphologyEx(mask, cv.MORPH_OPEN, None)
-    return mask
-
-
-def find_contours_to_circle(masked_frame, vid_frame):
-    contours = cv.findContours(masked_frame.copy(), cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
+    contours = cv.findContours(mask.copy(), cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
     contours = imutils.grab_contours(contours)
+    return contours
+
+
+def find_contours_to_circle(contours, vid_frame):
+
     if len(contours) >= 1:
         # find the largest contour in the mask, then use
         # it to compute the minimum enclosing circle
@@ -23,7 +24,6 @@ def find_contours_to_circle(masked_frame, vid_frame):
         if radius > 5:
             # draw the circle on the frame,
             cv.circle(vid_frame, (int(x), int(y)), int(radius), (0, 255, 255), 2)
-        cv.imshow("Detect_Circle", vid_frame)
     return None
 
 

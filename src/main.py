@@ -81,14 +81,15 @@ cwd = cwd + r"\data\videoplayback.mp4"
 
 def main():
     vid_src = cv.VideoCapture(cwd)
-    time.sleep(2.0)
+    time.sleep(2.5)
     while True:
         ret, frame = vid_src.read()
         if frame is None:
             break
-        masked_frame = fm.add_artifacts(frame, tuple(config['red_lower']), tuple(config['red_upper']))
-        fm.find_contours_to_circle(masked_frame, frame)
-        key = cv.waitKey(10) & 0xFF
+        contours = fm.add_artifacts(frame, tuple(config['red_lower']), tuple(config['red_upper']))
+        fm.find_contours_to_circle(contours, frame)
+        cv.imshow("Detect_Circle", frame)
+        key = cv.waitKey(5) & 0xFF
         if key == 27:
             break
     vid_src.release()
