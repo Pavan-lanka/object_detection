@@ -25,6 +25,10 @@ def main():
             break
         cv.imshow("Detect_Circle", frame)
         cv.imshow("masked_frame", masked_frame)
+    print(type(blurred_frame))
+    print(type(masked_frame))
+    print(type(frame_contours))
+    print(type(frame))
     return vid_src
 
 
