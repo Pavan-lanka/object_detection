@@ -64,30 +64,56 @@ def draw_circle(contours, vid_frame):
         # it to compute the minimum enclosing circle
         circle_vals = max(contours, key=cv.contourArea)
         ((x, y), radius) = cv.minEnclosingCircle(circle_vals)
-        if radius > 5:
+        if radius > 10:
             # draw the circle on the frame,
             cv.circle(vid_frame, (int(x), int(y)), int(radius), (0, 255, 255), 2)
     return vid_frame
 
 
-# def salt_pepper(img, percent: int, slt_ppr_percent: tuple = (50, 50)):
-#     img = cv.imread(img)
-#     slt_ratio = int((slt_ppr_percent[0] / 100) * percent)
-#     pep_ratio = int((slt_ppr_percent[1] / 100) * percent)
-#     pixels = img.shape[0] * img.shape[1] if len(img.shape) >= 3 else 0
-#     if percent <= 100 and pixels > 0:
-#         percent = int((percent / 100) * pixels)
-#     else:
-#         raise Exception('Select valid Percentage to add the noise 0 -- 100')
-#     img_copy = img.copy()
-#     pix_coordinates = list()
-#     while len(pix_coordinates) < percent:
-#         x = np.random.randint(0, img.shape[0])
-#         y = np.random.randint(0, img.shape[1])
-#         cord = (x, y)
-#         if cord not in pix_coordinates:
-#             pix_coordinates.append(cord)
-#     if slt_ppr_percent[0] + slt_ppr_percent[1] > 100:
-#         raise ValueError('Give Valid Ration for salt and pepper')
-#     for layer in range(img.shape[2]):
-#         for tup in pix_coordinates:
+def salt_pepper(img, percent: int, slt_ppr_percent: tuple = (50, 50)):
+    # img = cv.imread(img)
+    # slt_ratio = int((slt_ppr_percent[0] / 100) * percent)
+    # pep_ratio = int((slt_ppr_percent[1] / 100) * percent)
+    # pixels = img.shape[0] * img.shape[1] if len(img.shape) >= 3 else 0
+    # if percent <= 100 and pixels > 0:
+    #     percent = int((percent / 100) * pixels)
+    # else:
+    #     raise Exception('Select valid Percentage to add the noise 0 -- 100')
+    # img_copy = img.copy()
+    # pix_coordinates = list()
+    # while len(pix_coordinates) < percent:
+    #     x = np.random.randint(0, img.shape[0])
+    #     y = np.random.randint(0, img.shape[1])
+    #     cord = (x, y)
+    #     if cord not in pix_coordinates:
+    #         pix_coordinates.append(cord)
+    # if slt_ppr_percent[0] + slt_ppr_percent[1] > 100:
+    #     raise ValueError('Give Valid Ration for salt and pepper')
+    # for layer in range(img.shape[2]):
+    #     for tup in pix_coordinates:
+    def salt_pepper(img_path: str, percent: float, slt_ppr_percent: tuple = (0.5, 0.5)):
+        img = cv.imread(img_path)
+        pixs = img.shape[0] * img.shape[1] if len(img.shape) >= 3 else 0
+        pix_count = int(pixs * percent)
+        slt_count = int(pix_count * slt_ppr_percent[0])
+        ppr_count = int(pix_count * slt_ppr_percent[1])
+        img_copy = img
+        pix_coordinates = []
+        while True:
+            np.random.seed(0)
+            x = np.random.randint(0, img.shape[0])
+            y = np.random.randint(0, img.shape[1])
+            cord = (x, y)
+            if cord not in pix_coordinates:
+                pix_coordinates.append(cord)
+            elif len(pix_coordinates) < pix_count:
+                break
+            else:
+                continue
+
+        print(pix_coordinates)
+        for idx in pix_coordinates[:slt_count]:
+            img_copy[idx[1], idx[0]] = [255, 255, 255]
+        for idx1 in pix_coordinates[slt_count:ppr_count + 1]:
+            img_copy[idx1[1], idx1[0]] = [0, 0, 0]
+        return img, img_copy

@@ -10,7 +10,6 @@ config = load_config("config")
 
 def main():
     vid_src = cv.VideoCapture(config['path_to_file'])
-    time.sleep(2.0)
     while True:
         ret, frame = vid_src.read()
         if not ret or frame is None:
@@ -25,10 +24,6 @@ def main():
             break
         cv.imshow("Detect_Circle", frame)
         cv.imshow("masked_frame", masked_frame)
-    print(type(blurred_frame))
-    print(type(masked_frame))
-    print(type(frame_contours))
-    print(type(frame))
     return vid_src
 
 
